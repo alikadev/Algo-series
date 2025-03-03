@@ -8,6 +8,8 @@ package s03;
 // Using multiple iterators on the same list is allowed only 
 // if none of them modifies the list
 
+import java.util.NoSuchElementException;
+
 public class ListItr {
   final List list;
   ListNode pred, succ;
@@ -18,11 +20,34 @@ public class ListItr {
   }
 
   public void insertAfter(int e) {
-    // TODO
+    ListNode node = new ListNode(e, pred, succ);
+    if (pred != null)
+      pred.next = node;
+    else
+      list.first = node;
+
+    if (succ != null)
+      succ.prev = node;
+    else
+      list.last = node;
+
+    succ = node;
+    list.size++;
   }
 
   public void removeAfter() {
-    // TODO 
+    // Unlink the node
+    ListNode n = succ;
+    if (n == null) throw new NoSuchElementException();
+    if (n.next != null) n.next.prev = n.prev;
+    if (n.prev != null) n.prev.next = n.next;
+    succ = n.next;
+    list.size--;
+    // Has first/last changed
+    if (pred == null)
+      list.first = succ;
+    if (succ == null)
+      list.last = pred;
   }
 
   public int  consultAfter() {
@@ -49,6 +74,20 @@ public class ListItr {
   }
   public boolean isLast() { 
     return succ == null; 
+  }
+
+  public static void main(String[] args) {
+    List l = new List();
+    ListItr i = new ListItr(l);
+    System.out.println("NY: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
+    i.insertAfter(1);
+    System.out.println("IN: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
+    i.insertAfter(2);
+    System.out.println("IN: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
+    i.removeAfter();
+    System.out.println("UT: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
+    i.removeAfter();
+    System.out.println("UT: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
   }
 }
 

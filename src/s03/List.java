@@ -1,13 +1,15 @@
 package s03;
 public class List {
   ListNode first, last;
-  //TODO 
-  // --------------------
+  int size;
+
   public List() {
-    //TODO 
+    first = null;
+    last = null;
+    size = 0;
   } 
   public int size() {
-    return 0; // TODO 
+    return size;
   }
   public boolean isEmpty() {
     return size() == 0; 
