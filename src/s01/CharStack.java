@@ -62,12 +62,10 @@ public class CharStack {
       private final int buildVersion = version; // Saves the current version
       @Override
       public boolean hasMoreElements() {
-        if (version != buildVersion) throw new ConcurrentModificationException();
         return index >= 0;
       }
       @Override
       public Character nextElement() {
-        if (version != buildVersion) throw new ConcurrentModificationException();
         if (!hasMoreElements())
           throw new NoSuchElementException();
         return buffer[index--];
