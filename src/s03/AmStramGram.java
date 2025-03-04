@@ -15,14 +15,29 @@ public class AmStramGram {
     List list = new List();
     ListItr li = new ListItr(list);
 
-    // TODO 
-    // build '-/-1-2-3-4-...-n-'
-    // while size>1
-    //   advance k-1 times
-    //   then remove an element
-    // }
-    // return the survivor (only remaining element)
-    return 0; 
+    // Fill the list with the values //
+    for (int i = 1; i <= n; i++) {
+      li.insertAfter(i);
+      li.goToNext();
+    }
+    li.goToFirst();
+
+    // Find the survivor //
+    while (list.size != 1) {
+      // Move for k-1 steps, so from 1 to k-1
+      for (int i = 1; i <= (k-1); i++) {
+        if (li.isLast())
+          li.goToFirst();
+        li.goToNext();
+      }
+      // Remove the next element
+      if (li.isLast()) li.goToFirst();
+      li.removeAfter();
+    }
+
+    // Returns the element //
+    li.goToFirst();
+    return li.consultAfter();
   }
   // ----------------------------------------------------------  
   static void josephusDemo(int n, int k) {
