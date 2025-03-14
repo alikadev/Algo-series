@@ -9,23 +9,29 @@ package s03;
 // if none of them modifies the list
 
 import java.util.NoSuchElementException;
-
+/// ListItr.java
 public class ListItr {
-  final List list;
-  ListNode pred, succ;
-  // ----------------------------------------------------------
+  final List list; ///< The reference to the list
+  ListNode pred, succ; ///< The references to the nodes
+
+  /// Constructs a List Iterator. Initially points to the beginning
+  /// PRE: anyList != null
+  /// @param anyList The list to iterate
   public ListItr( List anyList ) {
     list = anyList; 
     goToFirst();   
   }
 
+  /// Inserts a new element after the current position
+  /// @param e The element to insert
   public void insertAfter(int e) {
     ListNode node = new ListNode(e, pred, succ);
+    // Link the predecessor element
     if (pred != null)
       pred.next = node;
     else
       list.first = node;
-
+    // Link the successor element
     if (succ != null)
       succ.prev = node;
     else
@@ -35,6 +41,8 @@ public class ListItr {
     list.size++;
   }
 
+  /// Removes the next element
+  /// PRE: !isLast()
   public void removeAfter() {
     // Unlink the node
     ListNode n = succ;
@@ -50,44 +58,48 @@ public class ListItr {
       list.last = pred;
   }
 
+  /// Getter to the successor's value
+  /// PRE: !isLast()
   public int  consultAfter() {
     return succ.elt;
   }
+
+  /// Moves the iterator to the next position
+  /// PRE: !isLast()
   public void goToNext() {
     pred = succ; 
     succ = succ.next; 
   }
+
+  /// Moves the iterator to the previous position
+  /// PRE: !isFist()
   public void goToPrev() {
     succ = pred;
     pred = pred.prev; 
   }
+
+  /// Moves to the first position
+  /// PRE: !list.isEmpty()
   public void goToFirst() { 
     succ = list.first; 
     pred = null;
   }
+
+  /// Moves to the last position
+  /// PRE: !list.isEmpty()
   public void goToLast() { 
     pred = list.last;  
     succ = null;
   }
+
+  /// Verifies if the iterator is at the first position
   public boolean isFirst() { 
     return pred == null;
   }
+
+  /// Verifies if the iterator is at the last position
   public boolean isLast() { 
     return succ == null; 
-  }
-
-  public static void main(String[] args) {
-    List l = new List();
-    ListItr i = new ListItr(l);
-    System.out.println("NY: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
-    i.insertAfter(1);
-    System.out.println("IN: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
-    i.insertAfter(2);
-    System.out.println("IN: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
-    i.removeAfter();
-    System.out.println("UT: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
-    i.removeAfter();
-    System.out.println("UT: " + (i.pred != null ? i.pred.elt : -1) + ", " + (i.succ != null ? i.succ.elt : -1) + ", f=" + (l.first != null ? l.first.elt : -1) + ", l=" + (l.last != null ? l.last.elt : -1));
   }
 }
 
