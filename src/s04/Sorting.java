@@ -17,8 +17,29 @@ public class Sorting {
     System.out.println("\nEnd of tiny demo");
   }
 
-  public static void selectionSort(int[] a) {
-    // TODO 
+  public static void selectionSort(int[] arr) {
+    for (int i = 0; i < arr.length; i++) {
+      int maxIdx = findMinIdxFrom(arr, i);
+      if (maxIdx == i) continue;
+      int tmp = arr[maxIdx];
+      arr[maxIdx] = arr[i];
+      arr[i] = tmp;
+    }
+  }
+
+  private static int findMinIdxFrom(int[] arr, int begin) {
+    if (begin < 0 || begin >= arr.length)
+      throw new IllegalArgumentException();
+    // Find the min value's index
+    int minIdx = begin, minVal = Integer.MAX_VALUE;
+    for (int i = begin; i < arr.length; i++) {
+      if (arr[i] < minVal) {
+        minVal = arr[i];
+        minIdx = i;
+      }
+    }
+
+    return minIdx;
   }
 
   public static void shellSort(int[] a) {
