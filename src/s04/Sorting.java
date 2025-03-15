@@ -42,8 +42,27 @@ public class Sorting {
     return minIdx;
   }
 
-  public static void shellSort(int[] a) {
-    // TODO 
+  public static void shellSort(int[] arr) {
+    // Find out maximum the k-sorting
+    int kSort = 1;
+    while (3*kSort + 1 <= arr.length) kSort = 3*kSort + 1;
+    // Iterates the kSorts
+    for (; kSort > 0; kSort = (kSort - 1) / 3) {
+      // Iterate each inner k-sorts
+      for (int i = 0; i < kSort; i++) {
+        insertionSortK(arr, i, kSort);
+      }
+    }
+  }
+
+  public static void insertionSortK(int[] arr, int begin, int k) {
+    for (int cur = begin; cur < arr.length; cur += k) {
+      for (int i = cur; i >= k && arr[i] < arr[i - k]; i -= k) {
+        int tmp = arr[i - k];
+        arr[i - k] = arr[i];
+        arr[i] = tmp;
+      }
+    }
   }
 
   public static void insertionSort(int[] a) {
