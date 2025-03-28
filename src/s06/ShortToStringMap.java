@@ -35,7 +35,9 @@ public class ShortToStringMap {
     size = 0;
   }
 
-  // adds an entry in the map, or updates it
+  /// Adds an entry in the map, or updates it
+  /// @param key The key of the entry
+  /// @param val The value of the entry
   public void put(short key, String val) {
     // Increase buffer if needed
     if (size + 1 > entries.length) {
@@ -52,12 +54,17 @@ public class ShortToStringMap {
     }
   }
 
-  // returns null if !containsKey(key)
+  /// Returns the value at the key or null
+  /// @param key The key of the value to read
+  /// @return The value at the given key or null if there's no entry at this key
   public String get(short key) {
     int i = findIdxByKey(key);
     return (i < 0) ? null : entries[i].value;
   }
 
+  /// Removes the entry at the given key.
+  /// If !containsKey(key), this operates as a no-op
+  /// @param key The key of the entry to remove
   public void remove(short key) {
     int idx = findIdxByKey(key);
     if (idx < 0) return;
@@ -69,22 +76,32 @@ public class ShortToStringMap {
     size--;
   }
 
+  /// Verify if the map contains an entry with the given key
+  /// @param k The key of the entry
+  /// @return true if an entry with this key is present, false otherwise
   public boolean containsKey(short k) {
     int i = findIdxByKey(k);
     return i >= 0;
   }
 
+  /// Verify if the map is empty
+  /// @return true if the map is empty, false otherwise
   public boolean isEmpty() {
     return size() == 0;
   }
-  
+
+  /// Returns the size of the map
+  /// @return The number of entry in the map
   public int size() {
     return size;
   }
-  
+
+  /// Returns a new iterator to the keys of the map.
+  /// Warn: Do not edit the map while an iterator is used
+  /// @return The iterator
   public ShortToStringMapItr iterator() {
     return new ShortToStringMapItr() {
-      int i = 0;
+      private int i = 0; ///< Current index
       @Override
       public boolean hasMoreKeys() {
         return i < size;
@@ -97,8 +114,9 @@ public class ShortToStringMap {
     };
   }
 
-  // a.union(b) :        a becomes "a union b"
-  //  values are those in b whenever possible
+  /// Updates this map such that it becomes the union of itself and another map.
+  /// When a key is present in both maps, the value from the other map (b) is used.
+  /// @param b The other ShortToStringMap to union with this one.
   public void union(ShortToStringMap b) {
     ShortToStringMapItr it = b.iterator();
     while (it.hasMoreKeys()) {
@@ -107,8 +125,9 @@ public class ShortToStringMap {
     }
   }
 
-  // a.intersection(b) : "a becomes a intersection b"
-  //  values are those in b
+  /// Updates this map such that it becomes the intersection of itself and another map.
+  /// The values for the common keys will be those from the other map (b).
+  /// @param b The other ShortToStringMap to intersect with this one.
   public void intersection(ShortToStringMap b) {
     // Cannot use an Short2StringMapItr because it cannot iterate from the end
     // Because the current element gets removed, the iterator index gets disrupted and some values are skipped
@@ -121,8 +140,8 @@ public class ShortToStringMap {
     }
   }
 
-  // a.toString() returns all elements in 
-  // a string like: {3:"abc", 9:"xy", -5:"jk"}
+  /// Returns a string representation of this map.
+  /// @return A string looking like that: "{3:abc, 9:xy, -5:jk}"
   @Override public String toString() {
     StringBuilder s = new StringBuilder();
     s.append('{');
@@ -137,6 +156,7 @@ public class ShortToStringMap {
     return s.toString();
   }
   // ------------------------------------------
+  /// Debug
   public static void main(String[] args) {
     // tiny demo
     ShortToStringMap sm = new ShortToStringMap();
@@ -147,44 +167,5 @@ public class ShortToStringMap {
     sm.remove((short)55);
     sm.put((short)-8, "EF");
     System.out.println(sm);
-
-    ShortToStringMap m1 = new ShortToStringMap();
-    m1.put((short)3, "3a");
-    m1.put((short)1, "1a");
-    m1.put((short)2, "2a");
-    m1.put((short)4, "4a");
-    m1.put((short)5, "5a");
-
-    ShortToStringMap m2 = new ShortToStringMap();
-    m2.put((short)1, "1b");
-    m2.put((short)6, "6b");
-    m2.put((short)7, "7b");
-    m2.put((short)2, "2b");
-    m2.put((short)8, "8b");
-
-    System.out.println("A: "+m1);
-    System.out.println("B: "+m2);
-    m1.intersection(m2);
-    System.out.println("A&B: "+m1);
-
-    ShortToStringMapTestJU.S2SMap s1 = new ShortToStringMapTestJU.S2SMap();
-    s1.put((short)3, "3a");
-    s1.put((short)1, "1a");
-    s1.put((short)2, "2a");
-    s1.put((short)4, "4a");
-    s1.put((short)5, "5a");
-
-    ShortToStringMapTestJU.S2SMap s2 = new ShortToStringMapTestJU.S2SMap();
-    s2.put((short)1, "1b");
-    s2.put((short)6, "6b");
-    s2.put((short)7, "7b");
-    s2.put((short)2, "2b");
-    s2.put((short)8, "8b");
-
-    System.out.println("A: "+s1.tr);
-    System.out.println("B: "+s2.tr);
-    s1.intersection(s2);
-    System.out.println("A&B: "+s1.tr);
   }
-
 }
