@@ -1,12 +1,24 @@
 package s07;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class ExternalSorting {
   public static void main(String[] args) {
-    // NOTE: by default, the "current directory" is the folder of the project (not
-    // the folder with the source code!). Either put your test file there, or change
-    // the filename below with an appropriate (eg absolute) path.
-    String filename = "myFile.txt";
+    String filename = "src/s07/myFile.txt";
+    Path backupPath = new File(filename + ".bkp").toPath();
+    try {
+      // Reload backup if exists
+      if (Files.exists(backupPath)) {
+        Files.copy(backupPath, new File(filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+      }
+      // Create the backup for the next run
+      Files.copy(new File(filename).toPath(), backupPath, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      System.err.println("Failed to create and/or load backup");
+      return;
+    }
     if (args.length > 0) filename = args[0];
     monotonySort(filename);
   }
@@ -37,6 +49,7 @@ public class ExternalSorting {
       }
     }
     fa.close(); fb.close(); fc.close();
+
     // A possible pseudocode:
     //   while there are remaining elements to process
     //     if both monotonies are ongoing
@@ -51,10 +64,26 @@ public class ExternalSorting {
   // into the new files named b and c
   // Returns the number of monotonies
   private static int split(String a, String b, String c) throws IOException {
+    // Working files
     BufferedReader fa = new BufferedReader(new FileReader(a));
-    PrintWriter    fb = new PrintWriter   (new FileWriter(b));
-    PrintWriter    fc = new PrintWriter   (new FileWriter(c));
-    return 0; // TODO
+    PrintWriter fb = new PrintWriter(new FileWriter(b));
+    PrintWriter fc = new PrintWriter(new FileWriter(c));
+
+    int monoCnt = 0; ///< The # of monotones
+    String prev = fa.readLine(); ///< Previous line
+    for (String cur; prev != null; prev = cur) {
+      // Write the previous element in the right file (fb = pair, fc = odd)
+      ((monoCnt % 2 == 0) ? fb : fc).println(prev);
+      // Take the next one, verify if it is monotone
+      cur = fa.readLine();
+      if (!isMonotone(cur, prev))
+        monoCnt++;
+    }
+
+    fa.close();
+    fb.close();
+    fc.close();
+    return monoCnt;
   }
   // ------------------------------------------------------------
   public static void monotonySort(String filename) {
