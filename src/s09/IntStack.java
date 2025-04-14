@@ -10,8 +10,12 @@ public class IntStack {
   }
 
   public IntStack(int initialCapacity) {
+    // Verify that the initial capacity is valid (not negative, not null)
+    assert initialCapacity > 0;
     buf = new int[initialCapacity]; 
     top = initialCapacity;
+    // Verify that isEmpty and the constructor are doing fine
+    assert isEmpty();
   }
 
   public boolean isEmpty() {
@@ -22,8 +26,10 @@ public class IntStack {
   }
 
   public int pop() {
+    // Verify that we don't pop if empty
+    assert !isEmpty();
     int e = buf[top];  
-    top++; 
+    top++;
     return e;
   }
 
@@ -31,6 +37,8 @@ public class IntStack {
     checkSize(); 
     top--;
     buf[top] = x;
+    // Shouldn't be empty by now...
+    assert !isEmpty();
   }
 
   private void push_buggy_B(int x) {
