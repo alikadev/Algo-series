@@ -171,8 +171,17 @@ public class Ex3SortingAlgosNestedTestJU {
   static int[][] varietyOfArrays() {
     return new int[][]{
             // TODO: invent relevant inputs as test cases
-            {0, 0},
-            {1, 1},
+            {},                      // Empty array (edge case)
+            {5},                     // Single element
+            {3, 1},                  // Two elements in wrong order
+            {1, 2, 3},               // Already sorted
+            {3, 2, 1},               // Reverse order (worst case for some sorts)
+            {2, 2, 2},               // All elements equal
+            {1, 3, 2},               // Simple case with local inversion
+            {5, 1, 4, 2, 3},         // General unsorted case
+            {1, 2, 2, 1, 3},         // Unsorted with duplicates
+            {Integer.MAX_VALUE, Integer.MIN_VALUE, 0}, // Extreme values
+            {4, 5, 1, 2, 3, 6, 0},   // Mixed elements
     };
   }
 
@@ -184,9 +193,21 @@ public class Ex3SortingAlgosNestedTestJU {
 
   private static void doSpecialTest1(ISorting sorter) {
     // TODO: with a more elaborate usage, try to detect the subtler bug in sort08...
+    // Special case to detect the subtle bug in sort08()
+    int[] input = {3, 1, 4, 2};
+    int[] sorted = Arrays.copyOf(input, input.length);
+    sorter.sort(sorted);
+    assertTrue(isSortingResultCorrect(input, sorted),
+            "sort08 failed on specific tricky input: {3, 1, 4, 2}");
   }
 
   private static void doSpecialTest2(ISorting sorter) {
     // TODO: with a more elaborate usage, try to detect the subtler bug in sort10...
+    // Special case to detect the subtle bug in sort10()
+    int[] input = {1, 3, 2, 4, 5};
+    int[] sorted = Arrays.copyOf(input, input.length);
+    sorter.sort(sorted);
+    assertTrue(isSortingResultCorrect(input, sorted),
+            "sort10 failed on edge case with local inversion: {1, 3, 2, 4, 5}");
   }
 }
