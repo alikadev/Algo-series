@@ -25,7 +25,7 @@ public class QueueChained<E> {
   }
 
   // PRE : !isEmpty()
-  public E consult()     {
+  public E consult() {
     return front.elt;
   }
 
