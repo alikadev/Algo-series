@@ -11,6 +11,8 @@ public class QueueChained<E> {
   private QueueNode<E> back;
   public QueueChained() {}
 
+  /// Enqueues the element
+  /// @param elt The element to enqueue
   public void enqueue (E elt) {
     QueueNode<E> node = new QueueNode<>(elt);
     // Update front / last back references
@@ -20,16 +22,22 @@ public class QueueChained<E> {
     back = node;
   }
 
+  /// Verify if the queue is empty
+  /// @return true when the queue is empty
   public boolean isEmpty() {
     return back==null;
   }
 
-  // PRE : !isEmpty()
+  /// Consults the front value without poping it out
+  /// @return The element to consult
+  /// PRE : !isEmpty()
   public E consult() {
     return front.elt;
   }
 
-  // PRE : !isEmpty()
+  /// Dequeue the front element of the queue
+  /// @return The dequeued element
+  /// PRE : !isEmpty()
   public E dequeue() {
     E e = front.elt;
     if (front == back) {

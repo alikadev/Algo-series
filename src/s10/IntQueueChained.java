@@ -14,6 +14,8 @@ public class IntQueueChained {
 
   public IntQueueChained() { }
 
+  /// Enqueues the element
+  /// @param elt The element to enqueue
   public void enqueue(int elt) {
     QueueNode node = new QueueNode(elt);
     // Update front / last back references
