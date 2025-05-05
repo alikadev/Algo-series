@@ -15,7 +15,12 @@ public class IntQueueChained {
   public IntQueueChained() { }
 
   public void enqueue(int elt) {
-    // TODO ...
+    QueueNode node = new QueueNode(elt);
+    // Update front / last back references
+    if (back == null) front = node;
+    else back.next = node;
+    // Push back
+    back = node;
   }
 
   public boolean isEmpty() {
