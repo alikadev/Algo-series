@@ -28,12 +28,21 @@ public class IntQueueArray {
 
   // PRE: !isEmpty()
   public int dequeue() {
-    // TODO ...
-    return 0;
+    int result = buffer[front];
+    front++;
+    if (front == buffer.length) front = 0;
+    size--;
+    return result;
   }
 
   private void checkSize() {
     if (size < buffer.length) return;
-    // TODO ...
+    int[] newBuffer = new int[2 * buffer.length];
+    for (int i = 0; i < size; i++) {
+      newBuffer[i] = buffer[(front + i) % buffer.length];
+    }
+    buffer = newBuffer;
+    front = 0;
+    back = size - 1;
   }
 }
