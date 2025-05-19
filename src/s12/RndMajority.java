@@ -21,6 +21,26 @@ public class RndMajority {
       }
       return false;
   }
+  public static boolean hasMajority2(Random r, int[] t, double risk) {
+      // Find the element with the maximum number of occurence
+      int cur = t[0];
+      int cnt = 1;
+      for (int i = 1; i < t.length; i++) {
+          if (cnt == 0) {
+              cur = t[i];
+              cnt = 1;
+          }
+          else if (cur == t[i]) cnt++;
+          else cnt--;
+      }
+      // Verify that the candidate has majority
+      cnt = 0;
+      for (int i = 0; i < t.length; i++) {
+          if (t[i] == cur) cnt++;
+      }
+
+      return cnt > t.length/2;
+  }
   // ------------------------------------------------------------
 
   static final int MAX_VALUE = 1000;
