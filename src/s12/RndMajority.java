@@ -6,7 +6,20 @@ import java.util.Random;
 public class RndMajority {
   // PRE: 0 < risk <= 1.0
   public static boolean hasMajority(Random r, int[] t, double risk) {
-    return false; // TODO
+      while (risk < 1.0) {
+          int majority = 0;
+          int rndIdx = r.nextInt(t.length);
+          // Count the element
+          for (int i = 0; i < t.length; i++) {
+              if (t[rndIdx] == t[i]) {
+                  majority++;
+                  if (majority > t.length / 2) return true;
+              }
+          }
+          // Reduce risk
+          risk *= 2.0;
+      }
+      return false;
   }
   // ------------------------------------------------------------
 
