@@ -78,12 +78,12 @@ public class RndMajority {
     // test with some majority arrays
     for (int i = 0; i < n; i++) {
       int[] t = generateMajorityArray(n, r);
-      if (!hasMajority(r, t, risk)) mistakes++;
+      if (!hasMajority2(r, t, risk)) mistakes++;
     }
     // test with some not majority arrays
     for (int i = 0; i < n; i++) {
       int[] t = generateNotMajorityArray(n, r);
-      if (hasMajority(r, t, risk))
+      if (hasMajority2(r, t, risk))
         throw new RuntimeException(
             "This array has no majority, but your program has detected one: "
             + Arrays.toString(t));
