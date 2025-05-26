@@ -16,7 +16,9 @@ public class RndLinear {
   //                   … 100 "20x more often than"  5
   //                   …  70 " 7x more often than" 10 ...
   public static int rndLinear(Random r, int n) {
-    return 0; // TODO
+    int sum = n * (n + 1) / 2, x = r.nextInt(sum), acc = 0;
+    for (int i = 1; i <= n; i++) if ((acc += i) > x) return i;
+    return 0;
   }
   //============================================================
   static void testLinear(Random r, int n, int nbOfExperiments) {

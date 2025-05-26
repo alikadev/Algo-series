@@ -16,8 +16,12 @@ public class PolynomThing {
   }
 
   @Override public int hashCode() {
-    return 0;
-    // TODO
+    // Compute hash code based on all fields used in equals:
+    // coef array content, isReducible boolean, and name string.
+    int result = Arrays.hashCode(coef);                     // Hash for the array content
+    result = 31 * result + Boolean.hashCode(isReducible);   // Include the boolean value
+    result = 31 * result + name.hashCode();                 // Include the string value
+    return result;
   }
 
   public double getCoef(int i) {

@@ -9,7 +9,7 @@ public class RndFlipCoin {
   }
   // ------------------------------------------------------------
   public static boolean flipCoin(Random r, int m, int n) {
-    return false; // TODO
+    return r.nextInt(n) < m;
   }
   //============================================================
   static void testFlipCoin(Random r, int m, int n, int nbOfTests) {
