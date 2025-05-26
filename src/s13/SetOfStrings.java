@@ -39,7 +39,21 @@ public class SetOfStrings {
   // where e can be stored
   int targetIndex(String e) { 
     /* Pseudo-code:
-    ...
+    count = total[e.hash]
+    pos = e.hash
+    ; Case count > 0 => try to find the current element
+    while count > 0 loop
+      pos = get next used location from pos
+      ; Hash are the same => we process it as one of ours
+      if elt[pos].hash ?= e.hash then
+        if elt[pos] = e then return pos endif
+        count--;
+      endif
+      ; Increment pos (circular)
+      pos = (pos + 1) mod capacity
+    endloop
+    ; Otherwise => find first free location
+    return get next free location from e.hash
     */
     int hash = hashString(e);
     int pos = hash;
