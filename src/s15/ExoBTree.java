@@ -55,24 +55,20 @@ public class ExoBTree {
   }
 
   public static void rotateRight(BTNode y) {
-    if (y == null || y.left == null) return;
     BTNode x = y.left;
-    y.left = x.right;
-    if (x.right != null) x.right.parent = y;
-
-    x.right = y;
-
-    // Mise à jour du parent
-    x.parent = y.parent;
+    // X <-> Y
     if (y.parent != null) {
-      if (y.parent.left == y) {
-        y.parent.left = x;
-      } else {
-        y.parent.right = x;
-      }
+      if (y.parent.left == y) y.parent.left = x;
+      else y.parent.right = x;
     }
-
+    x.parent = y.parent;
     y.parent = x;
+    // Y.left <- X.right
+    y.left = x.right;
+    if (x.right != null)
+      x.right.parent = y;
+    // X.right <- Y
+    x.right = y;
   }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
