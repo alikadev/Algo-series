@@ -14,18 +14,22 @@ public class ExoBTree {
       BTNode crt = q.remove(); 
       if (crt==null) continue;
       res += (" "+crt.elt); 
-      q.add(crt.left );
+      q.add(crt.left);
       q.add(crt.right);
     }
     return res;
   }
 
   public static int size(BTNode t) {
-    return 0; // TODO ...
+      if (t == null) return 0;
+      return 1 + size(t.left) + size(t.right);
   }
 
   public static int height(BTNode t) {
-    return 0; // TODO ...
+      if (t == null) return 0;
+      int hLeft = height(t.left);
+      int hRight = height(t.right);
+      return 1 + Math.max(hLeft, hRight);
   }
 
   public static String breadthFirstR(BTNode t) {
