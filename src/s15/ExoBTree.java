@@ -33,11 +33,18 @@ public class ExoBTree {
   }
 
   public static String breadthFirstR(BTNode t) {
-    return null; // TODO ...
+    String result = "";
+    int h = height(t);
+    for (int d = 0; d < h; d++) {
+      result += visitLevel(t, d);
+    }
+    return result.trim();
   }
 
   public static String visitLevel(BTNode t, int level) {
-    return null; // TODO ...
+    if (t == null) return "";
+    if (level == 0) return t.elt + " ";
+    return visitLevel(t.left, level - 1) + visitLevel(t.right, level - 1);
   }
 
   public static void depthFirst(BTNode t) {
@@ -48,7 +55,24 @@ public class ExoBTree {
   }
 
   public static void rotateRight(BTNode y) {
-    // TODO ...
+    if (y == null || y.left == null) return;
+    BTNode x = y.left;
+    y.left = x.right;
+    if (x.right != null) x.right.parent = y;
+
+    x.right = y;
+
+    // Mise à jour du parent
+    x.parent = y.parent;
+    if (y.parent != null) {
+      if (y.parent.left == y) {
+        y.parent.left = x;
+      } else {
+        y.parent.right = x;
+      }
+    }
+
+    y.parent = x;
   }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
